@@ -23,15 +23,26 @@ def load_raw_data(folder=None,type_link=None):
     return raw_data
 
 #loads data whose lists have the same number of elements
-def load_xy_data(x_axis=None, y_axis=None, n_bs=None, n_s=None, raw_data=None):
-     for i in range(0,n_bs):
-         x0 = raw_data[i][0][x_axis]
-         y0 = raw_data[i][0][y_axis]
+def load_xy_data(x_axis=None, y_axis=None, n_bs=None, n_s=None, raw_data=None, all_bs=None):
+     if all_bs == 'True':
+        for i in range(0,n_bs):
+            x0 = raw_data[i][0][x_axis]
+            y0 = raw_data[i][0][y_axis]
+            for t in range(1, n_s):
+                x1 = raw_data[i][t][x_axis]
+                x0 = np.concatenate((x0, x1))
+                y1 = raw_data[i][t][y_axis]
+                y0 = np.concatenate((y0, y1))
+     elif all_bs == 'False':
+         x0 = raw_data[n_bs][0][x_axis]
+         y0 = raw_data[n_bs][0][x_axis]
          for t in range(1, n_s):
-             x1 = raw_data[i][t][x_axis]
+             x1 = raw_data[n_bs][t][x_axis]
              x0 = np.concatenate((x0, x1))
-             y1 = raw_data[i][t][y_axis]
+             y1 = raw_data[n_bs][t][y_axis]
              y0 = np.concatenate((y0, y1))
+     else:
+         print("The variable all_bs just be 'True' or 'False'!")
 
      x_data = x0.tolist()
      y_data = y0.tolist()
@@ -68,7 +79,7 @@ def load_distance_data(n_bs=None,n_s=None, raw_data=None):
                                distances.append(distance)
     return distances
 
-def load_position_data(n_bs=None,n_s=1, raw_data=None):
+def load_position_data(n_bs=None,n_s=None, raw_data=None):
     uex_data=[]
     uey_data=[]
     bsx_data=[]
