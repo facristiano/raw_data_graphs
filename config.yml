@@ -1,52 +1,51 @@
-plot:
+general:
 
-##########################################################################Graph Output#########################################################################################################
+##########################################################################  General Settings  ###################################################################################################################
   
-  graph: False #(True or False) Not used!!!
-  x_var: 'distance' #('distance','cap','snr','avg_latency')
-  y_var: 'cap' #('distance','cap','snr','avg_latency')
-  n_bs: 1 #(number of BSs)
-  n_s: 59 #(number of simulations)
-  type_link: 'downlink_data' #('dowlink_data' or 'uplink_data')
+  file: '08_08_2024-02_18_27.pkl' # (name of the .pkl file)
+  make: 'graph' # ('map' --> draw map | 'graph' --> draw graph)
+  n_bs: 5 #(number of BSs)
+  step_bs: NOT USED!!!
+  n_s: 1  #(number of simulations)
+  step_s: NOT USED!!!
+  all_bs: 'False' # ('True' --> Dados extraídos de 1 a n_bs BSs | 'False' --> Dados extraídos de n_bs BSs)
+  type_link: 'downlink_data' #('downlink_data' or 'uplink_data')
 
-##########################################################################End Graph Output#############################################################################################################
+#########################################################################  End General Settings  ################################################################################################################
+graph:
 
-########################################################################Graph Custumize############################################################################################################
+############################################################################  Graph Settings  ###################################################################################################################
 
-  title: 'Capacity x Distance'
+  x_var: 'snr' #('distance','cap','snr','avg_latency', 'user_time', 'user_bw', 'deficit', 'norm_deficit')
+  y_var: 'cap' #('distance','cap','snr','avg_latency', 'use_time', 'user_bw', 'deficit', 'norm_deficit')
+  title: 'Capacity x  Distance'
   xlabel: 'Distance (Km)'
   ylabel: 'Capacity (Mbps)'
   figsize: [10, 6]
-  resolution: 600 # (100, 300 or 600)
+  resolution: 100 # (100, 300 or 600)
   grid: True
-  xlim: [0,25]
-  ylim: [0,12]
+  xlim: [0,30]
+  ylim: [0,30]
+  auto_scale: 'True'  # ('True' or 'False')
+  graph_type: 'line' #('line', 'bar', 'boxplot', 'scatter' or 'histplot')
+  save_as: 'graph_capacity_distance.png'
+
+#########################################################################   End Graph Settings  #################################################################################################################
+map:
+
+##############################################################################  Map Settings  ###################################################################################################################
+
+  complete: True # (True --> draw maps of the all simulations | False --> draw maps of a specific simulation)
+  title: 'Map of BSs and UEs'
+  xlabel: 'Distance (Km)'
+  ylabel: 'Distance (Km)'
+  figsize: [10, 6]
+  resolution: 100 # (100, 300 or 600)
+  grid: False
+  xlim: [0,30]
+  ylim: [0,30]
   auto_scale: 'False'  # ('True' or 'False')
-  graph_type: 'scatter' #('line', 'bar', 'boxplot', 'scatter' or 'histplot')
-  save_as: 'scatter_cap_distance.png'
+  save_as: 'graph_teste.png'
 
-#####################################################################   End Graph Custumize  ############################################################################################
+############################################################################   End Map Settings  #################################################################################################################
 
-##########################################################################  Map Output  ##############################################################################################
-
-  
-  map: True #(True or False) Not used!!!
-  complete: False #(True or False) Not used!!!
-
-######################################################################## End Map Output ###############################################################################
-
-
-######################################################################## Map Custumize ############################################################################################################
-  
-  title_map: 'Distribution map of BSs and UEs (20 BSs | 500 UEs)'
-  xlabel_map: 'Coordanate X (Km)'
-  ylabel_map: 'Coordanate Y (Km)'
-  figsize_map: [10, 6]
-  resolution_map: 600 # (100, 300 or 600)
-  grid_map: True
-  xlim_map: [0,30]
-  ylim_map: [0,30]
-  auto_scale_map: 'False'  # ('True' or 'False')
-  save_map_as: 'map_20bss_500ues.png'
-  
-#######################################################################  End Map Custumize ################################################################################################################
