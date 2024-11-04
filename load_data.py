@@ -22,6 +22,22 @@ def load_raw_data(folder=None,type_link=None):
 
     return raw_data
 
+def create_list(n_bs=None,step_bs=None, n_s=None, step_s=None):
+    if step_bs == None and step_s == None:
+        bs_list = n_bs
+        s_list = n_s
+    elif step_bs != None and step_s == None:
+        bs_list = list(range(0,n_bs,step_bs))
+        s_list = n_s
+    elif step_bs == None and step_s != None:
+        bs_list = n_bs
+        s_list = list(range(0,n_s,step_s))
+    else:
+        bs_list = list(range(0,n_bs,step_bs))
+        s_list = list(range(0,n_s,step_s))
+    
+    return bs_list, s_list
+
 #loads data whose lists have the same number of elements
 def load_xy_data(x_axis=None, y_axis=None, n_bs=None, n_s=None, raw_data=None, all_bs=None):
      if all_bs == 'True':
@@ -50,12 +66,32 @@ def load_xy_data(x_axis=None, y_axis=None, n_bs=None, n_s=None, raw_data=None, a
 
 def load_data(axis=None, n_bs=None, n_s=None, raw_data=None):
      x0 = []
-     for i in range(0,n_bs):
-         for t in range(0,n_s):
-             x1 = raw_data[i][t][axis]
-             x0 = np.concatenate((x0,x1))
-
-     x_data = x0.tolist()
+     axis_name = raw_data[0][0][axis]
+     axis_dim = len(axis_name)
+     ue_position = raw_data[0][0]['ue_position']
+     ue_dim = len(ue_position)
+     if ue_dim == axis_dim:
+         for i in range(0,n_bs):
+             for t in range(0,n_s):
+                 ue_position = raw_data[i][t]['ue_position']
+                 ue_dim = len(ue_position)
+                 for ue in range(0,ue_dim):
+                      df = raw_data[i][t]['ue_bs_table']['bs_index']
+                      bs_index = df.loc[ue]
+                      a=-1
+                      if bs_index != a:
+                          x1 = raw_data[i][t][axis][ue]
+                          x0.append(x1)
+                      else:
+                          {}
+                  
+     elif ue_dim != axis_dim:
+         for i in range(0,n_bs):
+             for t in range(0,n_s):
+                   x1 = raw_data[i][t][axis]
+                   x0 = np.concatenate((x0, x1))
+                  
+     x_data = x0
      return x_data
 
 def load_distance_data(n_bs=None,n_s=None, raw_data=None):
