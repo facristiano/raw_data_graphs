@@ -5,11 +5,15 @@ import os
 from datetime import datetime
 from PIL import Image
 import pandas as pd
-from load_data import load_config, load_raw_data, load_xy_data, load_position_data, load_distance_data, load_data
+from load_data import load_config, load_raw_data, load_xy_data, #load_position_data, load_distance_data, load_data
 from plot_data import draw_map
 from scipy.interpolate import make_interp_spline
 import numpy as np
 
+print('Modify the config.yml file, keeping in mind that:\n')
+analyze_simulation_structure ('/content/08_08_2024-02_18_27.pkl')
+print()
+press_any_key_to_continue()
 
 #load the configuration file
 config = load_config('config.yml')
@@ -17,24 +21,23 @@ config = load_config('config.yml')
 #load the raw data (downlink or uplink) from the .pkl file
 raw_data = load_raw_data (config['general']['file'], config['general']['type_link'])
 
-print('test')
-
-#load position data
-uex_data, uey_data, bsx_data, bsy_data,uex_off_data, uey_off_data,bs_index_data = load_position_data(config['general']['n_bs'], config['general']['n_s'], raw_data)
+#load simulation_list and bs_ue_list
+simulation_list = create_list(config['general']['s_min'], config['general']['s_max'], config['general']['s_step'])
+bs_ue_list = create_list(config['general']['bs_ue_min'], config['general']['bs_ue_max'], config['general']['bs_ue_step'])
 
 time = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 
 if config['general']['make'] == 'graph':
     if config['graph']['x_var'] == 'distance' or config['graph']['y_var']=='distance':
         if config['graph']['x_var']=='distance':
-              x_data = load_distance_data(config['general']['n_bs'], config['general']['n_s'], raw_data)
-              y_data = load_data(config['graph']['y_var'],config['general']['n_bs'],config['general']['n_s'], raw_data)
+              x_data = load_distance_data(bs_ue_list, simulation_list, raw_data)
+              y_data = load_data(config['graph']['y_var'],bs_ue_list,simulation_list, raw_data)
         else:
-              y_data = load_distance_data(config['general']['n_bs'], config['general']['n_s'], raw_data)
-              x_data = load_data(config['graph']['x_var'],config['general']['n_bs'],config['general']['n_s'], raw_data)
+              y_data = load_distance_data(bs_ue_list, simulation_list, raw_data)
+              x_data = load_data(config['graph']['y_var'],bs_ue_list,simulation_list, raw_data)
 
     else:
-        x_data, y_data = load_xy_data(config['graph']['x_var'],config['graph']['y_var'],config['general']['n_bs'],config['general']['n_s'], raw_data,config['general']['all_bs'])
+        x_data, y_data = load_xy_data(config['graph']['x_var'],config['graph']['y_var'],bs_ue_list,simulation_list, raw_data)
 
     #customize the graph
     plt.figure(figsize=tuple(config['graph']['figsize']), dpi=config['graph']['resolution'])
@@ -97,17 +100,17 @@ if config['general']['make'] == 'graph':
 
 
 elif config['general']['make'] == 'map':
-    
+
     #draw maps (complete == true --> draw all maps | complete == false --> draw a specific map)
     if config['map']['complete'] == True:
-        for t in range (0,config['general']['n_bs']):
-            for i in range(0,config['general']['n_s']):
+        for t in bs_ue_list:
+            for i in simulation_list:
                 title = config['map']['title'] +  ' (' + str(t+1)  + ' BSs, simulation ' + str(i+1) + ')'
                 save_as = str(t+1) +' BSs and ' + str(i+1) + ' simulation_' + config['map']['save_as']
                 uex_data, uey_data, bsx_data, bsy_data,uex_off_data, uey_off_data,bs_index_data = load_position_data(t, i, raw_data)
                 draw_map(uex_data, uey_data, bsx_data, bsy_data,uex_off_data, uey_off_data, bs_index_data, title,config['map']['xlabel'], config['map']['ylabel'], config['map']['auto_scale'], config['map']['xlim'], config['map']['ylim'], config['map']['figsize'], config['map']['resolution'], save_as, config['map']['complete'],config['map']['grid'],time )
     elif config['map']['complete'] == False:
-        uex_data, uey_data, bsx_data, bsy_data,uex_off_data, uey_off_data,bs_index_data = load_position_data(config['general']['n_bs'], config['general']['n_s'], raw_data)
+        uex_data, uey_data, bsx_data, bsy_data,uex_off_data, uey_off_data,bs_index_data = load_position_data(config['general']['bs_ue_min'], config['general']['s_min'], raw_data)
         draw_map(uex_data, uey_data, bsx_data, bsy_data,uex_off_data, uey_off_data, bs_index_data, config['map']['title'],config['map']['xlabel'], config['map']['ylabel'], config['map']['auto_scale'], config['map']['xlim'], config['map']['ylim'], config['map']['figsize'], config['map']['resolution'], config['map']['save_as'], config['map']['complete'],config['map']['grid'],time)
     else:
         print('Complete just be True or False!')
