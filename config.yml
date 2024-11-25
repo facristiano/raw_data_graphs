@@ -1,23 +1,43 @@
+#############################################################     Instructions for Drawing Your Graph/Map     #######################################################################################################################
+
+#        1) Save the .pkl file in the folder where the draw.py code is located;
+#        2) Run the draw.py program and check on the screen the type of variation (BSs or UEs), the quantity of each, and the number of simulations;
+#        3) Modify the config.yml file with your desired settings;
+#        4) Press any key on the prompt screen to proceed with the program execution.
+
 general:
 
-##########################################################################  General Settings  ###################################################################################################################
+##########################################################################  General Settings  ########################################################################################################################################
   
   file: '08_08_2024-02_18_27.pkl' # (name of the .pkl file)
-  make: 'graph' # ('map' --> draw map | 'graph' --> draw graph)
-  n_bs: 5 #(number of BSs)
-  step_bs: NOT USED!!!
-  n_s: 1  #(number of simulations)
-  step_s: NOT USED!!!
-  all_bs: 'False' # ('True' --> Dados extraídos de 1 a n_bs BSs | 'False' --> Dados extraídos de n_bs BSs)
+  make: 'map' # 'map' --> draw map | 'graph' --> draw graph
+  bs_ue_min: 1 # Minimum number of BSs or UEs
+  bs_ue_max: 20 # Maximum number of BSs or UEs (If empty, only the minimum value will be used)
+  bs_ue_step: 1 # Step size for BSs or UEs
+  s_min: 1 # Minimum simulation number
+  s_max: 60 # Maximum simulation number (If empty, only the minimum value will be used)
+  s_step: 1 # Step size for the simulation
   type_link: 'downlink_data' #('downlink_data' or 'uplink_data')
 
-#########################################################################  End General Settings  ################################################################################################################
+#########################################################################  End General Settings  ######################################################################################################################################
 graph:
 
-############################################################################  Graph Settings  ###################################################################################################################
+############################################################################  Graph Settings  #########################################################################################################################################
 
-  x_var: 'snr' #('distance','cap','snr','avg_latency', 'user_time', 'user_bw', 'deficit', 'norm_deficit')
-  y_var: 'cap' #('distance','cap','snr','avg_latency', 'use_time', 'user_bw', 'deficit', 'norm_deficit')
+                                           
+############################  Glossary #################################
+#    'distance' → Distance between the UE and its respective BS        #
+#    'cap' → Capacity                                                  #                      
+#    'snr' → Signal-to-noise ratio                                     #                           
+#    'avg_latency' → Average latency                                   #                                                         
+#    'user_time' → Time each UE was connected to its BS                #                                                     
+#    'user_bw' → Bandwidth used by each UE                             #
+#    'deficit' →                                                       #
+#    'norm_deficit' →                                                  #
+#########################################################################
+
+  x_var: 'distance' # 'distance','cap','snr','avg_latency', 'user_time', 'user_bw', 'deficit', 'norm_deficit'
+  y_var: 'cap' # 'distance','cap','snr','avg_latency', 'use_time', 'user_bw', 'deficit', 'norm_deficit' 
   title: 'Capacity x  Distance'
   xlabel: 'Distance (Km)'
   ylabel: 'Capacity (Mbps)'
@@ -27,15 +47,15 @@ graph:
   xlim: [0,30]
   ylim: [0,30]
   auto_scale: 'True'  # ('True' or 'False')
-  graph_type: 'line' #('line', 'bar', 'boxplot', 'scatter' or 'histplot')
+  graph_type: 'scatter' #('line', 'bar', 'boxplot', 'scatter' or 'histplot')
   save_as: 'graph_capacity_distance.png'
 
-#########################################################################   End Graph Settings  #################################################################################################################
+#########################################################################   End Graph Settings  #######################################################################################################################################
 map:
 
-##############################################################################  Map Settings  ###################################################################################################################
+##############################################################################  Map Settings  #########################################################################################################################################
 
-  complete: True # (True --> draw maps of the all simulations | False --> draw maps of a specific simulation)
+  complete: True # True --> Draws the maps for all BSs and simulations based on the provided maximum and minimum values | False --> Draws the map for a single quantity of BSs or UEs (bs_ue_min) from a specific simulation (s_min))
   title: 'Map of BSs and UEs'
   xlabel: 'Distance (Km)'
   ylabel: 'Distance (Km)'
@@ -47,5 +67,6 @@ map:
   auto_scale: 'False'  # ('True' or 'False')
   save_as: 'graph_teste.png'
 
-############################################################################   End Map Settings  #################################################################################################################
+############################################################################   End Map Settings  #########################################################################################################################################
+
 
