@@ -55,7 +55,7 @@ map:
 
 ##############################################################################  Map Settings  #########################################################################################################################################
 
-  complete: True # True --> Draws the maps for all BSs and simulations based on the provided maximum and minimum values | False --> Draws the map for a single quantity of BSs or UEs (bs_ue_min) from a specific simulation (s_min))
+  complete: True # True --> Draws the maps for all BSs and simulations based on the provided maximum and minimum values | False --> Draws the map for a single quantity of BSs or UEs (bs_ue_min) from a specific simulation (s_min)
   title: 'Map of BSs and UEs'
   xlabel: 'Distance (Km)'
   ylabel: 'Distance (Km)'
