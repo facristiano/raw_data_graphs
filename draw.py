@@ -1,19 +1,20 @@
 import matplotlib.pyplot as plt
 import seaborn as sns
 import io
-import os
+import os, sys
 from datetime import datetime
 from PIL import Image
 import pandas as pd
-from load_data import load_config, load_raw_data, load_xy_data, #load_position_data, load_distance_data, load_data
+from load_data import load_config, load_raw_data, load_xy_data, load_position_data, load_distance_data, load_data, analyze_simulation_structure, press_any_key_to_continue, create_list
 from plot_data import draw_map
 from scipy.interpolate import make_interp_spline
 import numpy as np
 
 print('Modify the config.yml file, keeping in mind that:\n')
-analyze_simulation_structure ('/content/08_08_2024-02_18_27.pkl')
+analyze_simulation_structure('/home/lisandro/Área de trabalho/raw_data_graphs_test/08_14_24-14_01_47.pkl')
 print()
 press_any_key_to_continue()
+
 
 #load the configuration file
 config = load_config('config.yml')

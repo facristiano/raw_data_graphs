@@ -9,14 +9,14 @@ general:
 
 ##########################################################################  General Settings  ########################################################################################################################################
   
-  file: '08_08_2024-02_18_27.pkl' # (name of the .pkl file)
-  make: 'map' # 'map' --> draw map | 'graph' --> draw graph
+  file: '08_14_24-14_01_47.pkl' # (name of the .pkl file)
+  make: 'graph' # 'map' --> draw map | 'graph' --> draw graph
   bs_ue_min: 1 # Minimum number of BSs or UEs
   bs_ue_max: 20 # Maximum number of BSs or UEs (If empty, only the minimum value will be used)
-  bs_ue_step: 1 # Step size for BSs or UEs
+  bs_ue_step: 2 # Step size for BSs or UEs
   s_min: 1 # Minimum simulation number
   s_max: 60 # Maximum simulation number (If empty, only the minimum value will be used)
-  s_step: 1 # Step size for the simulation
+  s_step: 5 # Step size for the simulation
   type_link: 'downlink_data' #('downlink_data' or 'uplink_data')
 
 #########################################################################  End General Settings  ######################################################################################################################################
@@ -34,28 +34,31 @@ graph:
 #    'user_bw' → Bandwidth used by each UE                             #
 #    'deficit' →                                                       #
 #    'norm_deficit' →                                                  #
-#########################################################################
+#    'start_latency' -->                                               #
+#    'min_latency' -->                                                 #
+#    'max_latency' -->                                                 #
+########################################################################
 
-  x_var: 'distance' # 'distance','cap','snr','avg_latency', 'user_time', 'user_bw', 'deficit', 'norm_deficit'
-  y_var: 'cap' # 'distance','cap','snr','avg_latency', 'use_time', 'user_bw', 'deficit', 'norm_deficit' 
-  title: 'Capacity x  Distance'
+  x_var: 'distance' # 'distance','cap','snr','avg_latency', 'user_time', 'user_bw', 'deficit', 'norm_deficit', 'start_latency', 'min_latency', 'max_latency'
+  y_var: 'max_latency' # 'distance','cap','snr','avg_latency', 'use_time', 'user_bw', 'deficit', 'norm_deficit', 'start_latency', 'min_latency', 'max_latency'
+  title: 'Max Latency x  Distance'
   xlabel: 'Distance (Km)'
-  ylabel: 'Capacity (Mbps)'
+  ylabel: 'Max Latency (ms)'
   figsize: [10, 6]
-  resolution: 100 # (100, 300 or 600)
+  resolution: 300 # (100, 300 or 600)
   grid: True
-  xlim: [0,30]
-  ylim: [0,30]
-  auto_scale: 'True'  # ('True' or 'False')
+  xlim: [0,25]
+  ylim: [0,200]
+  auto_scale: 'False'  # ('True' or 'False')
   graph_type: 'scatter' #('line', 'bar', 'boxplot', 'scatter' or 'histplot')
-  save_as: 'graph_capacity_distance.png'
+  save_as: 'graph_maxlatency_distance.png'
 
 #########################################################################   End Graph Settings  #######################################################################################################################################
 map:
 
 ##############################################################################  Map Settings  #########################################################################################################################################
 
-  complete: True # True --> Draws the maps for all BSs and simulations based on the provided maximum and minimum values | False --> Draws the map for a single quantity of BSs or UEs (bs_ue_min) from a specific simulation (s_min)
+  complete: False # True --> Draws the maps for all BSs and simulations based on the provided maximum and minimum values | False --> Draws the map for a single quantity of BSs or UEs (bs_ue_min) from a specific simulation (s_min)
   title: 'Map of BSs and UEs'
   xlabel: 'Distance (Km)'
   ylabel: 'Distance (Km)'

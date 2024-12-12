@@ -191,4 +191,10 @@ def analyze_simulation_structure(file_path):
 # analyze_simulation_structure('path_to_simulation.pkl')
 
 def press_any_key_to_continue():
-    input("Press any key to continue...")
+    import sys
+    option = input("Press Y to continue or N to stop (and redo the config file):\n")
+    if option == 'N' or option == 'n':
+        sys.exit()
+    elif option != 'Y' and option != 'y':
+        press_any_key_to_continue()
+
